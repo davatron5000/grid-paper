@@ -1,0 +1,249 @@
+/**
+  * Resets and Variables
+  */
+html,
+body {
+  font-family: monospace;
+  height: 100%;
+  height: stretch;
+  margin: 0;
+}
+
+body {
+  --accent: #d2d2cd;
+  --strokewidth: 0.5;
+  --gridsize: 0.5;
+  --gridsize-cm: calc(var(--gridsize) * 1cm);
+  --strokewidth-mm: calc(var(--strokewidth) * 1mm);
+  --strokewidth-deg: calc((var(--strokewidth) / 2) * 1deg);
+  --grid-color: color(from var(--accent) srgb r g b / 0.5);;
+
+  padding: 0.5cm;
+}
+
+/**
+  * Base Grid Styles
+  */
+[data-grid] {
+  --quadrant: /* 0deg */
+    var(--grid-color) calc(0deg - (var(--strokewidth-deg) / 2)),
+    var(--grid-color) calc(var(--strokewidth-deg) / 2),
+    transparent calc(var(--strokewidth-deg) / 2),
+    transparent calc((var(--gridsize) / 2) * 15deg - (var(--strokewidth-deg) / 2));
+
+  --bottom-gradient: linear-gradient(
+      to bottom,
+      /* 	50% */ transparent 50%,
+      var(--grid-color) 50%,
+      var(--grid-color) calc(50% + var(--strokewidth-mm)),
+      transparent calc(50% + var(--strokewidth-mm)),
+      /* 54.0*/ transparent 54.0%,
+      var(--grid-color) 54.0%,
+      var(--grid-color) calc(54.0% + var(--strokewidth-mm)),
+      transparent calc(54.0% + var(--strokewidth-mm)),
+      /* 	61.0 */ transparent 61.0%,
+      var(--grid-color) 61.0%,
+      var(--grid-color) calc(61.0% + var(--strokewidth-mm)),
+      transparent calc(61.0% + var(--strokewidth-mm)),
+      /* 72.0 */ transparent 72.0%,
+      var(--grid-color) 72.0%,
+      var(--grid-color) calc(72.0% + var(--strokewidth-mm)),
+      transparent calc(72.0% + var(--strokewidth-mm)),
+      /* 87.0 */ transparent 87.0%,
+      var(--grid-color) 87.0%,
+      var(--grid-color) calc(87.0% + var(--strokewidth-mm)),
+      transparent calc(87.0% + var(--strokewidth-mm)),
+      /* 100% */ transparent 100%,
+      var(--grid-color) 100%,
+      var(--grid-color) calc(100% + var(--strokewidth-mm)),
+      transparent calc(100% + var(--strokewidth-mm))
+    );
+
+  background-size: var(--gridsize-cm) var(--gridsize-cm);
+  background-repeat: repeat, repeat;
+  background-position: top left;
+}
+
+/**
+  * Grid Variants
+  */
+[data-grid="grid"] {
+  background-image: linear-gradient(
+      to right,
+      var(--grid-color) var(--strokewidth-mm),
+      transparent var(--strokewidth-mm),
+      transparent var(--gridsize-cm)
+    ),
+    linear-gradient(
+      to bottom,
+      var(--grid-color) var(--strokewidth-mm),
+      transparent var(--strokewidth-mm),
+      transparent var(--gridsize-cm)
+    );
+}
+
+[data-grid="dot-grid"] {
+  background-image: radial-gradient(
+    var(--strokewidth-mm),
+    var(--grid-color),
+    var(--grid-color) var(--strokewidth-mm),
+    transparent
+  );
+}
+
+[data-grid="isomorphic"] {
+  background: repeating-linear-gradient(
+      150deg,
+      var(--grid-color),
+      var(--grid-color) var(--strokewidth-mm),
+      transparent calc(var(--strokewidth-mm) + 1px),
+      transparent var(--gridsize-cm)
+    ),
+    repeating-linear-gradient(
+      30deg,
+      var(--grid-color),
+      var(--grid-color) var(--strokewidth-mm),
+      transparent calc(var(--strokewidth-mm) + 1px),
+      transparent var(--gridsize-cm)
+    );
+}
+
+[data-grid="isomorphic-dot"] {
+  background-image: radial-gradient(
+      var(--strokewidth-mm),
+      var(--grid-color),
+      var(--grid-color) var(--strokewidth-mm),
+      transparent
+    ),
+    radial-gradient(
+      var(--strokewidth-mm),
+      var(--grid-color),
+      var(--grid-color) var(--strokewidth-mm),
+      transparent
+    );
+  background-position: top left, var(--gridsize-cm) calc(var(--gridsize-cm) / 2);
+  background-size: calc(var(--gridsize-cm) * 2) var(--gridsize-cm);
+}
+
+[data-grid="perspective"] {
+  background-image:
+    repeating-conic-gradient(from 0deg, var(--quadrant)),
+    var(--bottom-gradient);
+  background-size: cover;
+}
+
+[data-grid="two-point-perspective"] {
+  background-image:
+    repeating-conic-gradient(from 0deg, var(--quadrant)),
+    repeating-conic-gradient(from 0deg, var(--quadrant));
+  background-position-x: left, right;
+  background-size: 180% 100%, 180% 100%;
+  background-repeat: no-repeat;
+}
+
+/**
+  * HTML Styles
+  */
+header {
+  display: grid;
+  gap: 0.25cm;
+}
+
+h1, h2, h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+label {
+  white-space: pre;
+}
+
+button[popovertarget] {
+  appearance: none;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.5rem;
+  margin: -0.5rem;
+  background: transparent;
+  border-radius: 3px;
+  border-color: transparent;
+  text-box-trim: trim-both;
+  anchor-name: --infoBtn;
+
+  &:hover {
+    background: color(from var(--grid-color) srgb r g b / 0.25);
+  }
+
+  svg {
+    height: 16px;
+    width: 16px;
+    display: block;
+  }
+}
+
+[popover] {
+  margin: 2cm 1cm 1cm;
+  max-width: 72ch;
+}
+
+.overlay {
+  padding: 0.5cm;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: white;
+}
+
+.input {
+  min-inline-size: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+/**
+  * Knob Styles
+  */
+.knobs {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 0.5cm;
+  align-items: center;
+}
+
+.title {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 0.25cm;
+  align-items: center;
+}
+
+.knobs {
+  input,
+  select {
+    font-family: inherit;
+    width: stretch;
+    max-width: 100%;
+    appearance: base;
+  }
+
+
+  input[type="color"] {
+    width: revert;
+  }
+}
+
+/**
+  * Print Styles
+  */
+@media print {
+  body {
+    print-color-adjust: exact;
+  }
+
+  .overlay {
+    display: none;
+  }
+}
