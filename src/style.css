@@ -20,7 +20,7 @@ body {
   --gridsize-cm: calc(var(--gridsize) * 1cm);
   --strokewidth-mm: calc(var(--strokewidth) * 1mm);
   --strokewidth-deg: calc((var(--strokewidth) / 2) * 1deg);
-  --grid-color: color(from var(--accent) srgb r g b / 0.5);
+  --grid-color: color-mix(in srgb, var(--accent) 50%, white 50%);
   ;
 
   padding: 0.5cm;
